@@ -27,6 +27,9 @@ const onDeleteItem = (id) => {
 
 const onFormSubmit = (data) => {
   console.log(data)
+  if (data.type === 'OUTCOME' && data.value > 0) {
+    data.value *= -1
+  }
   const newObj = {
     ...data,
     id: String(Math.random())
