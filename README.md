@@ -1,35 +1,17 @@
-# vue-budget-app
 
-This template should help get you started developing with Vue 3 in Vite.
+# Budget App Vue 3
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+1. [ ] Внутри компоненты __BudgetList__ взять шаблон который мы генерируем для одного элемента в списке и вынести его в отдельную компоненту например __BudgetListItem__.
 
-## Customize configuration
+2. [ ] Сейчас есть бага, если мы выберем в форме тип __outcome__ но цифру введем без минуса то это значение *приплюсуется к общему балансу*, нужно это исправить.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+3. [ ] __TotalBalance__ должен менять цвет текста в зависимости от значения __total__, если значение больше нуля то цвет  <span style="color:green">зеленый</span>, если ноль то __черный__ и если меньше нуля то <span style="color:red">красный</span>.
 
-## Project Setup
+4. [ ] При удаление одного item из списка запрашивать подтверждение хотя бы  обычным confirm, но если хотите посложнее то используйте из фреймворка element-ui, элемент __Dialog__.
 
-```sh
-npm install
-```
+5. [ ] В каждом элементе списка *расход/доход* доблжна быть иконка el-icon-top или el-icon-bottom в зависимости от того какой тип у данного элемета расход или доход. Эти иконки вы можете найти в разделе __Icon__ на сайте [element-ui](https://element-plus.org/).  Также должен менятся цвет цифры на <span style="color:red">красный</span> или <span style="color:green">зеленый</span>.
 
-### Compile and Hot-Reload for Development
+6. [ ] Добавить кнопки сортировки над __BudgetList__ которые будут управлять сортировкой списка, показать только расходы, показать только доходы, показать все.
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+7. [ ] Сделать кастомный валидатор для поля __value__ в форме, пользователь не должен иметь возможности отправить форму со значением ноль в этом поле. Про кастомные валидаторы можете почитать в документации [element-ui](https://element-plus.org/) в разделе с Form.
