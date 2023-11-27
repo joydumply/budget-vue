@@ -1,13 +1,13 @@
 <template>
   <el-card class="form-card">
-    <el-form :model="formData" label-position="top">
+    <el-form :model="formData" ref="addItemForm" label-position="top" :rules="rules">
       <el-form-item label="Type" prop="type">
         <el-select class="type-select" v-model="formData.type" placeholder="Choose type...">
           <el-option label="Income" value="INCOME" />
           <el-option label="Outcome" value="OUTCOME" />
         </el-select>
       </el-form-item>
-      <el-form-item label="Comments" prop="comment">
+      <el-form-item label="Comment" prop="comment">
         <el-input v-model="formData.comment" />
       </el-form-item>
       <el-form-item label="Value" prop="value">
@@ -26,10 +26,39 @@ export default {
       type: 'INCOME',
       comment: '',
       value: 0
+    },
+    rules: {
+      type: [{ required: true, message: 'Please select type', trigger: 'blur' }],
+      value: [
+        {
+          required: true,
+          message: 'Please enter the value',
+          trigger: 'blur'
+        },
+        {
+          type: 'number',
+          message: 'Please enter the value as a number'
+        }
+      ],
+      comment: [
+        {
+          required: true,
+          message: 'Please enter your comment',
+          trigger: 'blur'
+        }
+      ]
     }
   }),
   methods: {
-    onSubmit() {}
+    onSubmit() {
+      console.log(this.$refs.addItemForm)
+      this.$refs.addItemForm.validate((valid) => {
+        if (valid) {
+          this.$emit('submitForm', { ...this.formData })
+          this.$refs.addItemForm.resetFields()
+        }
+      })
+    }
   }
 }
 </script>

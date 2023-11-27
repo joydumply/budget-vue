@@ -24,10 +24,20 @@ const totalBalance = computed(() => {
 const onDeleteItem = (id) => {
   delete list[id]
 }
+
+const onFormSubmit = (data) => {
+  console.log(data)
+  const newObj = {
+    ...data,
+    id: String(Math.random())
+  }
+  const id = newObj.id
+  list[id] = newObj
+}
 </script>
 
 <template>
-  <BudgetForm />
+  <BudgetForm @submitForm="onFormSubmit" />
   <TotalBalance :total="totalBalance" />
   <BudgetList :list="list" @deleteItem="onDeleteItem" />
 </template>
