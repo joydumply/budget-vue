@@ -21,34 +21,57 @@
 <script>
 export default {
   name: 'BudgetForm',
-  data: () => ({
-    formData: {
-      type: 'INCOME',
-      comment: '',
-      value: 0
-    },
-    rules: {
-      type: [{ required: true, message: 'Please select type', trigger: 'blur' }],
-      value: [
-        {
-          required: true,
-          message: 'Please enter the value',
-          trigger: 'blur'
-        },
-        {
-          type: 'number',
-          message: 'Please enter the value as a number'
+  data: () => {
+    /**
+     * 
+     * ? Как сделать то же самое но в конструкции data:() => ({}) 
+     */
+    const validateValue = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the password again'))
+      } else if (!Number.isInteger(value)) {
+        callback(new Error('Please input digits'))
+      } else {
+        if (value == 0) {
+          callback(new Error('Value can not be 0'))
+        } else {
+          callback()
         }
-      ],
-      comment: [
-        {
-          required: true,
-          message: 'Please enter your comment',
-          trigger: 'blur'
-        }
-      ]
+      }
     }
-  }),
+    return {
+      formData: {
+        type: 'INCOME',
+        comment: '',
+        value: 0
+      },
+      rules: {
+        type: [{ required: true, message: 'Please select type', trigger: 'blur' }],
+        value: [
+          {
+            required: true,
+            message: 'Please enter the value',
+            trigger: 'blur'
+          },
+          {
+            type: 'number',
+            message: 'Please enter the value as a number'
+          },
+          {
+            validator: validateValue,
+            trigger: 'blur'
+          }
+        ],
+        comment: [
+          {
+            required: true,
+            message: 'Please enter your comment',
+            trigger: 'blur'
+          }
+        ]
+      }
+    }
+  },
   methods: {
     onSubmit() {
       console.log(this.$refs.addItemForm)
