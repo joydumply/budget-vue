@@ -6,7 +6,7 @@
           v-for="item in list"
           :key="item.id"
           :item="item"
-          @delete-item="deleteItemById"
+          @delete-item="$emit('deleteItem', item.id)"
         />
       </template>
       <el-alert v-else type="info" :title="emptyTitle" :closable="false"> </el-alert>
@@ -31,11 +31,6 @@ export default {
   computed: {
     isEmpty() {
       return !Object.keys(this.list).length
-    }
-  },
-  methods: {
-    deleteItemById(id) {
-      this.$emit('deleteItem', id)
     }
   },
   emits: ['deleteItem'],
