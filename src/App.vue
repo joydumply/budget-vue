@@ -1,8 +1,9 @@
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import BudgetList from './components/BudgetList.vue'
 import TotalBalance from './components/TotalBalance.vue'
 import BudgetForm from './components/BudgetForm.vue'
+import ModalClose from './components/ModalClose.vue'
 const list = reactive({
   1: {
     type: 'INCOME',
@@ -17,12 +18,15 @@ const list = reactive({
     id: 2
   }
 })
+const dialogVisible = ref(false)
+const deleteID = ref(0)
 const totalBalance = computed(() => {
   return Object.values(list).reduce((acc, item) => acc + item.value, 0)
 })
 
 const onDeleteItem = (id) => {
-  delete list[id]
+  deleteID.value = id
+  onModalOpen()
 }
 
 const onFormSubmit = (data) => {
@@ -37,12 +41,22 @@ const onFormSubmit = (data) => {
   const id = newObj.id
   list[id] = newObj
 }
+const onModalOpen = () => {
+  dialogVisible.value = true
+}
+const closeModal = ({ isDelete, deleteID }) => {
+  dialogVisible.value = false
+  if (isDelete) {
+    delete list[deleteID]
+  }
+}
 </script>
 
 <template>
   <BudgetForm @submitForm="onFormSubmit" />
   <TotalBalance :total="totalBalance" />
   <BudgetList :list="list" @deleteItem="onDeleteItem" />
+  <ModalClose :dialog="dialogVisible" :deleteID="deleteID" @closeModal="closeModal" />
 </template>
 
 <style scoped>
