@@ -1,6 +1,7 @@
 <template>
   <div class="budget-list-wrap">
     <el-card class="box-card" :header="header">
+      <BudgetListSortSelect @onTypeSort="onTypeSelected" />
       <template v-if="!isEmpty">
         <BudgetListItem
           v-for="item in list"
@@ -16,6 +17,7 @@
 
 <script>
 import BudgetListItem from './BudgetListItem.vue'
+import BudgetListSortSelect from './BudgetListSortSelect.vue'
 export default {
   name: 'BudgetList',
   props: {
@@ -33,9 +35,15 @@ export default {
       return !Object.keys(this.list).length
     }
   },
-  emits: ['deleteItem'],
+  emits: ['deleteItem', 'onTypeSort'],
   components: {
-    BudgetListItem
+    BudgetListItem,
+    BudgetListSortSelect
+  },
+  methods: {
+    onTypeSelected(value) {
+      this.$emit('onTypeSort', value)
+    }
   }
 }
 </script>
@@ -44,5 +52,8 @@ export default {
 .budget-list-wrap {
   max-width: 500px;
   margin: auto;
+}
+.type-sort-select-wrap {
+  padding: 10px 15px;
 }
 </style>
