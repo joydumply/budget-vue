@@ -23,8 +23,8 @@ export default {
   name: 'BudgetForm',
   data: () => {
     /**
-     * 
-     * ? Как сделать то же самое но в конструкции data:() => ({}) 
+     *
+     * ? Как сделать то же самое но в конструкции data:() => ({})
      */
     const validateValue = (rule, value, callback) => {
       if (value === '') {
@@ -74,7 +74,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.$refs.addItemForm)
       this.$refs.addItemForm.validate((valid) => {
         if (valid) {
           this.$emit('submitForm', { ...this.formData })
