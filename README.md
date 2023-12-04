@@ -1,5 +1,26 @@
 # Budget App Vue 3
 
+## v.1.0.1 Vuex
+
+### Added
+
+- Added Vuex and Store for BudgetApp
+- Reworked methods to manipulate store state
+
+## v1.0.0 Released
+
+### Added
+
+- Added BudgetListItem as a component
+- Fixed Outcome value bug
+- Implemented changing color for **TotalBalance**
+- Implemented confirmation before removing item from the list
+- Added icon for each BudgetListItem (income/outcome)
+- Implemented sorting (Income/Outcome/All)
+- Implemented **value** validation
+
+## Tasks
+
 1. [x] Внутри компоненты **BudgetList** взять шаблон который мы генерируем для одного элемента в списке и вынести его в отдельную компоненту например **BudgetListItem**.
 
 2. [x] Сейчас есть бага, если мы выберем в форме тип **outcome** но цифру введем без минуса то это значение _приплюсуется к общему балансу_, нужно это исправить.

@@ -1,59 +1,48 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 import BudgetList from './components/BudgetList.vue'
 import TotalBalance from './components/TotalBalance.vue'
 import BudgetForm from './components/BudgetForm.vue'
 import ModalClose from './components/ModalClose.vue'
-const list = reactive({
-  1: {
-    type: 'INCOME',
-    value: 100,
-    comment: 'Some Comment',
-    id: 1
-  },
-  2: {
-    type: 'OUTCOME',
-    value: -50,
-    comment: 'Some Outcome Comment',
-    id: 2
-  }
-})
 
+const store = useStore()
 const sort = ref('ALL')
 
+const budgetList = computed(() => store.getters['budgetList'])
+
 const sortedList = computed(() => {
-  return sort.value == 'ALL' ? list : Object.values(list).filter((item) => item.type === sort.value)
+  return sort.value == 'ALL'
+    ? budgetList.value
+    : budgetList.value.filter((item) => item.type === sort.value)
 })
 
 const dialogVisible = ref(false)
 const deleteID = ref(0)
 const totalBalance = computed(() => {
-  return Object.values(list).reduce((acc, item) => acc + item.value, 0)
+  return budgetList.value.reduce((acc, item) => acc + item.value, 0)
 })
+
+const onFormSubmit = (data) => {
+  if (data.type === 'OUTCOME' && data.value > 0) {
+    data.value *= -1
+  }
+
+  store.dispatch('addNewListItem', data)
+}
 
 const onDeleteItem = (id) => {
   deleteID.value = id
   onModalOpen()
 }
 
-const onFormSubmit = (data) => {
-  if (data.type === 'OUTCOME' && data.value > 0) {
-    data.value *= -1
-  }
-  const newObj = {
-    ...data,
-    id: String(Math.random())
-  }
-  const id = newObj.id
-  list[id] = newObj
-}
 const onModalOpen = () => {
   dialogVisible.value = true
 }
 const closeModal = ({ isDelete, deleteID }) => {
   dialogVisible.value = false
   if (isDelete) {
-    delete list[deleteID]
+    store.dispatch('removeListItem', deleteID)
   }
 }
 const onTypeSort = (value) => {
